@@ -52,7 +52,7 @@
  	},
  	transportation: {
  		type: String,
- 		enum: ['Driving','Riding with Friend','CodeRED Provided Bus','3rd Party Bus','Flight','I live on/near campus','Other',''],
+ 		enum: ['Driving','Riding with Friend','CodeRED Provided Bus','3rd Party Bus','Flight','I live on/near campus','Other'],
  		default: ''
  	},
  	firstHackathon: {
