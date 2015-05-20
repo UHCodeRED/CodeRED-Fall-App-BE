@@ -35,10 +35,11 @@
  		}
  	} else {
  		for (var errName in err.errors) {
- 			if (err.errors[errName].message) message = err.errors[errName].message;
- 		}
- 		if (err.errors.transportation) {
- 			message = 'Please fill in a form of transportation';
+ 			if (errName === 'transportation')
+ 				message = 'Please fill in a form of transportation';
+ 			else
+ 				if (err.errors[errName].message) message = err.errors[errName].message;
+
  		}
  	}
 
