@@ -13,7 +13,7 @@
  var methodOverride = require('method-override');
  var csrf = require('csurf');
  var swig = require('swig');
-
+ var path = require('path');
  var mongoStore = require('connect-mongo')(session);
  var flash = require('connect-flash');
  var winston = require('winston');
@@ -35,7 +35,7 @@
   }));
 
   // Static files middleware
-  app.use(express.static(config.root + '/public'));
+app.use(express.static(path.join(__dirname, 'public')));
 
   app.use(function(req, res, next) {
     res.header("Access-Control-Allow-Origin", "*");
@@ -59,7 +59,7 @@
 
   // Don't log during tests
   // Logging middleware
-  if (env !== 'test') app.use(morgan(log));
+//  if (env !== 'test') app.use(morgan("default", log));
 
   // Swig templating engine settings
   if (env === 'development' || env === 'test') {
@@ -70,7 +70,7 @@
 
   // set views path, template engine and default layout
   app.engine('html', swig.renderFile);
-  app.set('views', config.root + '/app/views');
+  app.set('views', './app/views');
   app.set('view engine', 'html');
 
   // expose package.json to views
