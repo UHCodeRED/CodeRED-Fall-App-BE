@@ -13,7 +13,11 @@ $ npm install
 ```
 
 
-## Build & Development && Production
+## Build & Development Production
 
 Run `node server.js` for building.
 
+## Production
+Variables that need to be set.
+`process.env.MongoDB`, `process.env.cookieSessionSecret`
+`NODE_PATH=./config:./app/controllers`
