@@ -1,15 +1,15 @@
 
 /**
- * Module dependencies.
- */
+* Module dependencies.
+*/
 
- var mongoose = require('mongoose');
-
+var mongoose = require('mongoose');
+var attendeeCTRL = require('../app/controllers/attendee.server.controller');
 /**
- * Expose
- */
+* Expose
+*/
 
- module.exports = function (app, passport) {
+module.exports = function (app, passport) {
 
   app.get('/', function (req, res) {
     res.render('home/index', {
@@ -17,18 +17,34 @@
     });
   });
 
-  /**
-   * Error handling
-   */
 
-   app.use(function (err, req, res, next) {
+  //Attendee Routes
+  app.route('/attendees')
+  .get(attendeeCTRL.list)
+  .post(attendeeCTRL.create);
+
+  app.route('/attendees/:attendeeId')
+  .get(attendeeCTRL.read)
+  .put(attendeeCTRL.update)
+  .delete(attendeeCTRL.delete);
+
+  // Finish by binding the Attendee middleware
+  app.param('attendeeId', attendeeCTRL.attendeeByID);
+
+
+  /**
+  * Error handling
+  */
+
+  app.use(function (err, req, res, next) {
     // treat as 404
     if (err.message
       && (~err.message.indexOf('not found')
-        || (~err.message.indexOf('Cast to ObjectId failed')))) {
+        || (~err.message.indexOf('Cast to ObjectId failed'))))
+    {
       return next();
-  }
-  console.error(err.stack);
+    }
+    console.error(err.stack);
     // error page
     res.status(500).render('500', { error: err.stack });
   });
