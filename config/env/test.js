@@ -4,7 +4,8 @@
  */
 
 module.exports = {
-  db: 'mongodb://fbuentello:meanrepotest@ds031108.mongolab.com:31108/meanrepotest',
+  environment: 'test',
+  db: 'mongodb://fbuentello:meanrepotest@ds041032.mongolab.com:41032/meanrepotest',
   facebook: {
     clientID: 'APP_ID',
     clientSecret: 'SECRET',

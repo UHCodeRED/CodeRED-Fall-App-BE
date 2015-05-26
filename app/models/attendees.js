@@ -66,6 +66,10 @@
 	usingHardware: {
  		type: Boolean,
  		default: false
+ 	},
+ 	isComing: {
+ 		type: Boolean,
+ 		default: false
  	}
  });
 

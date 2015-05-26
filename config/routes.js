@@ -25,7 +25,7 @@ module.exports = function (app, passport) {
 
   app.route('/attendees/:attendeeId')
   .get(attendeeCTRL.read)
-  .put(attendeeCTRL.update)
+  .post(attendeeCTRL.update)
   .delete(attendeeCTRL.delete);
 
   // Finish by binding the Attendee middleware
