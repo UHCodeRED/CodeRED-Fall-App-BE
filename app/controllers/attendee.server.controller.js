@@ -1,16 +1,16 @@
 'use strict';
 
 /**
- * Module dependencies.
- */
+* Module dependencies.
+*/
 var mongoose = require('mongoose'),
 	errorHandler = require('./errors.server.controller'),
 	Attendee = mongoose.model('Attendee'),
 	_ = require('lodash');
 
 /**
- * Create a Attendee
- */
+* Create a Attendee
+*/
 exports.create = function(req, res) {
 	console.log('were creating an attendee!');
 	var attendee = new Attendee(req.body);
@@ -28,17 +28,17 @@ exports.create = function(req, res) {
 };
 
 /**
- * Show the current Attendee
- */
+* Show the current Attendee
+*/
 exports.read = function(req, res) {
 	res.jsonp(req.attendee);
 };
 
 /**
- * Update a Attendee
- */
+* Update a Attendee
+*/
 exports.update = function(req, res) {
-	var attendee = req.attendee ;
+	var attendee = req.attendee;
 
 	attendee = _.extend(attendee , req.body);
 
@@ -54,8 +54,8 @@ exports.update = function(req, res) {
 };
 
 /**
- * Delete an Attendee
- */
+* Delete an Attendee
+*/
 exports.delete = function(req, res) {
 	var attendee = req.attendee ;
 
@@ -65,14 +65,17 @@ exports.delete = function(req, res) {
 				message: errorHandler.getErrorMessage(err)
 			});
 		} else {
-			res.jsonp(attendee);
+			res.jsonp({
+				attendee: attendee,
+				status: 'deleted!'
+			});
 		}
 	});
 };
 
 /**
- * List of Attendees
- */
+* List of Attendees
+*/
 exports.list = function(req, res) {
 	Attendee.find().sort('-created').populate('user', 'displayName').exec(function(err, attendees) {
 		if (err) {
@@ -86,8 +89,8 @@ exports.list = function(req, res) {
 };
 
 /**
- * Attendee middleware
- */
+* Attendee middleware
+*/
 exports.attendeeByID = function(req, res, next, id) {
 	Attendee.findById(id).populate('user', 'displayName').exec(function(err, attendee) {
 		if (err) return next(err);
@@ -98,8 +101,8 @@ exports.attendeeByID = function(req, res, next, id) {
 };
 
 /**
- * Attendee authorization middleware
- */
+* Attendee authorization middleware
+*/
 exports.hasAuthorization = function(req, res, next) {
 	if (req.attendee.user.id !== req.user.id) {
 		return res.status(403).send('User is not authorized');
