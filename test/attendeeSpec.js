@@ -117,7 +117,6 @@ describe('Attendee', function() {
 		.get('/attendees')
 		.expect(200)
 		.end(function(err, res) {
-			console.log('body: ', res.body);
 			res.status.should.equal(200);
 			res.body.length.should.equal(0);
 			done();
