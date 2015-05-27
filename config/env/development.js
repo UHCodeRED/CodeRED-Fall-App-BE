@@ -4,6 +4,7 @@
  */
 
 module.exports = {
+  environment: 'development',
   db: process.env.MongoDB || 'mongodb://fbuentello:meanRepo@ds027758.mongolab.com:27758/meanrepo',
   facebook: {
     clientID: 'APP_ID',

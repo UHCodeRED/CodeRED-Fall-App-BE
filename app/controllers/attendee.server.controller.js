@@ -38,7 +38,7 @@ exports.read = function(req, res) {
  * Update a Attendee
  */
 exports.update = function(req, res) {
-	var attendee = req.attendee ;
+	var attendee = req.attendee;
 
 	attendee = _.extend(attendee , req.body);
 
