@@ -6,47 +6,23 @@
 var mongoose = require('mongoose'),
 	errorHandler = require('./errors.server.controller'),
 	Attendee = mongoose.model('Attendee'),
-	emailServer = require('../../config/email'),
 	_ = require('lodash');
 
-var spitError = function (error) {
-	console.error({message: errorHandler.getErrorMessage(error)});
-};
 /**
 * Create a Attendee
 */
 exports.create = function(req, res) {
 	console.log('were creating an attendee!');
-	Attendee.count({email: req.body.email}, function( err, count){
-		console.log( "Number of Attendees:", count );
-		if (count) {
+	var attendee = new Attendee(req.body);
+
+	attendee.save(function(err) {
+		if (err) {
 			return res.status(400).send({
-				message: errorHandler.getErrorMessage({code:11002})
+				message: errorHandler.getErrorMessage(err)
 			});
 		} else {
-			console.log('attendee doesnt exists');
-			var attendee = new Attendee(req.body);
-			attendee.save(function(err) {
-				if (err) {
-					return res.status(400).send({
-						message: errorHandler.getErrorMessage(err)
-					});
-				} else {
-					console.log('were responding with an attendee!');
-					emailServer.confirmationEmail(attendee, function(emailErr) {
-						if (emailErr) {
-							spitError(emailErr);
-							res.jsonp(attendee);
-						} else {
-							attendee.update({confirmationEmail:true}, function(updateErr, raw) {
-								if (updateErr) spitError(emailErr);
-								console.log('The raw response from Mongo was ', raw);
-								res.jsonp(attendee);
-							});
-						}
-					});
-				}
-			});
+			console.log('were responding with an attendee!');
+			res.jsonp(attendee);
 		}
 	});
 };
