@@ -71,6 +71,10 @@ var AttendeeSchema = new Schema({
  	isComing: {
  		type: Boolean,
  		default: false
+ 	},
+  created: {
+ 		type: Date,
+ 		default: Date.now
  	}
  });
 =======
