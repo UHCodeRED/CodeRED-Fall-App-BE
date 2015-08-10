@@ -30,6 +30,9 @@
  			case 11001:
  			message = getUniqueErrorMessage(err);
  			break;
+ 			case 11002:
+ 			message = 'That email already exists in the database, check your email for confirmation';
+ 			break;
  			default:
  			message = 'Something went wrong';
  		}
