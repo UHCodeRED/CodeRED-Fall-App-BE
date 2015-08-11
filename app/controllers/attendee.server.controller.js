@@ -9,9 +9,6 @@ var mongoose = require('mongoose'),
 	emailServer = require('../../config/email'),
 	_ = require('lodash');
 
-var spitError = function (error) {
-	console.error({message: errorHandler.getErrorMessage(error)});
-};
 /**
 * Create a Attendee
 */
@@ -26,16 +23,18 @@ exports.create = function(req, res) {
 		} else {
 			console.log('attendee doesnt exists');
 			var attendee = new Attendee(req.body);
-			attendee.save(function(err) {
-				if (err) {
+			attendee.save(function(saveErr) {
+				if (saveErr) {
 					return res.status(400).send({
-						message: errorHandler.getErrorMessage(err)
+						message: errorHandler.getErrorMessage(saveErr)
 					});
 				} else {
 					console.log('were responding with an attendee!');
 					emailServer.confirmationEmail(attendee, function(emailErr) {
 						if (emailErr) {
-							spitError(emailErr);
+							return res.status(400).send({
+								message: errorHandler.getErrorMessage(emailErr)
+							});
 
 						} else {
 							attendee.update({confirmationEmail:true}, function(updateErr, raw) {
