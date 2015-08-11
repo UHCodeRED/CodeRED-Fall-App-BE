@@ -9,15 +9,12 @@ var mongoose = require('mongoose'),
 	emailServer = require('../../config/email'),
 	_ = require('lodash');
 
-var spitError = function (error) {
-	console.error({message: errorHandler.getErrorMessage(error)});
-};
 /**
 * Create a Attendee
 */
 exports.create = function(req, res) {
 	console.log('were creating an attendee!');
-	Attendee.count({email: req.body.email}, function( err, count){
+	Attendee.count({email: req.body.email}, function(err, count){
 		console.log( "Number of Attendees:", count );
 		if (count) {
 			return res.status(400).send({
@@ -26,22 +23,28 @@ exports.create = function(req, res) {
 		} else {
 			console.log('attendee doesnt exists');
 			var attendee = new Attendee(req.body);
-			attendee.save(function(err) {
-				if (err) {
+			attendee.save(function(saveErr) {
+				if (saveErr) {
 					return res.status(400).send({
-						message: errorHandler.getErrorMessage(err)
+						message: errorHandler.getErrorMessage(saveErr)
 					});
 				} else {
 					console.log('were responding with an attendee!');
 					emailServer.confirmationEmail(attendee, function(emailErr) {
 						if (emailErr) {
-							spitError(emailErr);
-							res.jsonp(attendee);
+							return res.status(400).send({
+								message: errorHandler.getErrorMessage(emailErr)
+							});
+
 						} else {
 							attendee.update({confirmationEmail:true}, function(updateErr, raw) {
-								if (updateErr) spitError(emailErr);
-								console.log('The raw response from Mongo was ', raw);
-								res.jsonp(attendee);
+								if (updateErr) {
+									return res.status(400).send({
+										message: errorHandler.getErrorMessage(updateErr)
+									});
+								}
+							console.log('The raw response from Mongo was ', raw);
+							return res.jsonp(attendee);
 							});
 						}
 					});
