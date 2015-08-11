@@ -4,7 +4,7 @@
 */
 
 var mongoose = require('mongoose');
-var attendeeCTRL = require('../app/controllers/attendee.server.controller');
+var Attendee = require('../app/controllers/attendee.server.controller');
 /**
 * Expose
 */
@@ -20,14 +20,14 @@ module.exports = function (app, passport) {
 
   //Attendee Routes
   app.route('/attendees')
-  .get(attendeeCTRL.list)
-  .post(attendeeCTRL.create);
+  .get(Attendee.list)
+  .post(Attendee.doesExist,Attendee.create,Attendee.sendEmail,Attendee.update);
 
   app.route('/attendees/:attendeeId')
-  .get(attendeeCTRL.read)
-  .post(attendeeCTRL.update)
-  .delete(attendeeCTRL.delete);
+  .get(Attendee.read)
+  .post(Attendee.update)
+  .delete(Attendee.delete);
 
   // Finish by binding the Attendee middleware
-  app.param('attendeeId', attendeeCTRL.attendeeByID);
+  app.param('attendeeId', Attendee.attendeeByID);
 };

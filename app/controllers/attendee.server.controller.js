@@ -55,18 +55,42 @@ exports.create = function(req, res) {
 	});
 };
 */
-exports.create = function(req, res) {
-	console.log('were creating an attendee!');
-	var attendee = new Attendee(req.body);
-
-	attendee.save(function(err) {
-		if (err) {
+exports.doesExist = function(req, res, next) {
+	Attendee.count({email: req.body.email}, function(err, count){
+		console.log( "Number of Attendees:", count );
+		if (count) {
 			return res.status(400).send({
-				message: errorHandler.getErrorMessage(err)
+				message: errorHandler.getErrorMessage({code:11002})
+			});
+		} else {
+			next();
+		}
+	});
+};
+exports.create = function(req, res, next) {
+	var attendee = new Attendee(req.body);
+	attendee.save(function(saveErr) {
+		if (saveErr) {
+			return res.status(400).send({
+				message: errorHandler.getErrorMessage(saveErr)
 			});
 		} else {
 			console.log('were responding with an attendee!');
-			res.jsonp(attendee);
+			req.attendee = attendee;
+			next();
+		}
+	});
+};
+exports.sendEmail = function(req, res, next) {
+	emailServer.confirmationEmail(req.attendee, function(emailErr) {
+		if (emailErr) {
+			return res.status(400).send({
+				message: errorHandler.getErrorMessage(emailErr)
+			});
+
+		} else {
+			req.body.confirmationEmail = true;
+			next();
 		}
 	});
 };
