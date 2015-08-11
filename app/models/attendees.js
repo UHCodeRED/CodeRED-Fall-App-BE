@@ -64,6 +64,20 @@ var AttendeeSchema = new Schema({
 		default: false
 	},
 	usingHardware: {
+<<<<<<< HEAD
+ 		type: Boolean,
+ 		default: false
+ 	},
+ 	isComing: {
+ 		type: Boolean,
+ 		default: false
+ 	},
+  created: {
+ 		type: Date,
+ 		default: Date.now
+ 	}
+ });
+=======
 		type: Boolean,
 		default: false
 	},
@@ -78,6 +92,7 @@ var AttendeeSchema = new Schema({
 	created_at: Date,
 	updated_at: Date
 });
+>>>>>>> pr/6
 
 // on every save, add the date
 AttendeeSchema.pre('save', function(next) {
