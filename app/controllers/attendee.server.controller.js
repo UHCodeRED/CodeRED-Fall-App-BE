@@ -17,7 +17,7 @@ var spitError = function (error) {
 */
 exports.create = function(req, res) {
 	console.log('were creating an attendee!');
-	Attendee.count({email: req.body.email}, function( err, count){
+	Attendee.count({email: req.body.email}, function(err, count){
 		console.log( "Number of Attendees:", count );
 		if (count) {
 			return res.status(400).send({
@@ -36,12 +36,16 @@ exports.create = function(req, res) {
 					emailServer.confirmationEmail(attendee, function(emailErr) {
 						if (emailErr) {
 							spitError(emailErr);
-							res.jsonp(attendee);
+
 						} else {
 							attendee.update({confirmationEmail:true}, function(updateErr, raw) {
-								if (updateErr) spitError(emailErr);
-								console.log('The raw response from Mongo was ', raw);
-								res.jsonp(attendee);
+								if (updateErr) {
+									return res.status(400).send({
+										message: errorHandler.getErrorMessage(updateErr)
+									});
+								}
+							console.log('The raw response from Mongo was ', raw);
+							return res.jsonp(attendee);
 							});
 						}
 					});
