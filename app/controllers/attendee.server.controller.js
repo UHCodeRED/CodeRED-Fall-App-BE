@@ -12,10 +12,7 @@ var mongoose = require('mongoose'),
 /**
 * Create a Attendee
 */
-var saveUser = function (req,res,next){
-
-};
-
+/*
 exports.create = function(req, res) {
 	console.log('were creating an attendee!');
 	Attendee.count({email: req.body.email}, function(err, count){
@@ -54,6 +51,22 @@ exports.create = function(req, res) {
 					});
 				}
 			});
+		}
+	});
+};
+*/
+exports.create = function(req, res) {
+	console.log('were creating an attendee!');
+	var attendee = new Attendee(req.body);
+
+	attendee.save(function(err) {
+		if (err) {
+			return res.status(400).send({
+				message: errorHandler.getErrorMessage(err)
+			});
+		} else {
+			console.log('were responding with an attendee!');
+			res.jsonp(attendee);
 		}
 	});
 };
