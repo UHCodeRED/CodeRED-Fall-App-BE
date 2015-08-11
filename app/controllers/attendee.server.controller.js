@@ -12,6 +12,10 @@ var mongoose = require('mongoose'),
 /**
 * Create a Attendee
 */
+var saveUser = function (req,res,next){
+
+};
+
 exports.create = function(req, res) {
 	console.log('were creating an attendee!');
 	Attendee.count({email: req.body.email}, function(err, count){
