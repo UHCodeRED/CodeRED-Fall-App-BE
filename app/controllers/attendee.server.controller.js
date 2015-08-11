@@ -77,7 +77,7 @@ exports.create = function(req, res, next) {
 		} else {
 			console.log('were responding with an attendee!');
 			req.attendee = attendee;
-			next();
+			res.jsonp(attendee);
 		}
 	});
 };
