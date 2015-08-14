@@ -31,7 +31,7 @@
  			message = getUniqueErrorMessage(err);
  			break;
  			case 11002:
- 			message = 'That email already exists in the database, check your email for confirmation';
+ 			message = "Looks like you have already signed up. We will let you know September 1st if you were excepted.";
  			break;
  			default:
  			message = 'Something went wrong';

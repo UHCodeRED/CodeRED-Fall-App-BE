@@ -15,49 +15,6 @@ var mongoose = require('mongoose'),
 /**
 * Create a Attendee
 */
-/*
-exports.create = function(req, res) {
-	console.log('were creating an attendee!');
-	Attendee.count({email: req.body.email}, function(err, count){
-		console.log( "Number of Attendees:", count );
-		if (count) {
-			return res.status(400).send({
-				message: errorHandler.getErrorMessage({code:11002})
-			});
-		} else {
-			console.log('attendee doesnt exists');
-			var attendee = new Attendee(req.body);
-			attendee.save(function(saveErr) {
-				if (saveErr) {
-					return res.status(400).send({
-						message: errorHandler.getErrorMessage(saveErr)
-					});
-				} else {
-					console.log('were responding with an attendee!');
-					emailServer.confirmationEmail(attendee, function(emailErr) {
-						if (emailErr) {
-							return res.status(400).send({
-								message: errorHandler.getErrorMessage(emailErr)
-							});
-
-						} else {
-							attendee.update({confirmationEmail:true}, function(updateErr, raw) {
-								if (updateErr) {
-									return res.status(400).send({
-										message: errorHandler.getErrorMessage(updateErr)
-									});
-								}
-							console.log('The raw response from Mongo was ', raw);
-							return res.jsonp(attendee);
-							});
-						}
-					});
-				}
-			});
-		}
-	});
-};
-*/
 exports.doesExist = function(req, res, next) {
 	Attendee.count({email: req.body.email}, function(err, count){
 		console.log( "Number of Attendees:", count );
@@ -79,8 +36,7 @@ exports.create = function(req, res, next) {
 			});
 		} else {
 			console.log('were responding with an attendee!');
-			req.attendee = attendee;
-			next();
+			res.jsonp(attendee);
 		}
 	});
 };
@@ -99,60 +55,41 @@ exports.sendEmail = function(req, res, next) {
 	});
 };
 */
-exports.sendEmail = function(req, res, next) {
-	var attendee = req.attendee;
-	return sendgrid.send({
-		to:       attendee.email,
-		from:     'hackathon@cougarcs.com',
-		subject:  'CodeRED Liftoff Application Received',
-		html:     swig.renderFile('./app/views/email/confirmation.html', {
-					firstName: attendee.firstName,
-					lastName: attendee.lastName
-				})
-	}, function(err, json) {
-		if (err) {
-			console.log('error happened');
-			return res.status(400).send({
-					message: err
-				});
-		} else {
-			console.log('success',json);
-			req.body.confirmationEmail = true;
-			return next();
-		}
-	});
-};
 
 /**
 * Show the current Attendee
 */
-exports.read = function(req, res) {
+exports.read = function(req, res, next) {
 	res.jsonp(req.attendee);
 };
 
 /**
 * Update a Attendee
 */
-exports.update = function(req, res) {
+exports.update = function(req, res, next) {
+	console.log('inside of update');
 	var attendee = req.attendee;
 
 	attendee = _.extend(attendee , req.body);
 
 	attendee.update(req.body, function(updateErr, raw) {
 		if (updateErr) {
+			console.log('inside of completionhandler');
 			return res.status(400).send({
 				message: errorHandler.getErrorMessage(updateErr)
 			});
 		}
-	console.log('The raw response from Mongo was ', raw);
-	return res.jsonp(attendee);
+		console.log('The raw response from Mongo was ', raw);
+		return res.jsonp(attendee);
 	});
 };
 
 /**
 * Delete an Attendee
 */
-exports.delete = function(req, res) {
+exports.delete = function(req, res, next) {
+	res.send("Ooops You're not supposed to be here");
+	/*
 	var attendee = req.attendee ;
 
 	attendee.remove(function(err) {
@@ -166,13 +103,15 @@ exports.delete = function(req, res) {
 				status: 'deleted!'
 			});
 		}
-	});
+	});*/
 };
 
 /**
 * List of Attendees
 */
-exports.list = function(req, res) {
+exports.list = function(req, res, next) {
+	res.send("Ooops You're not supposed to be here");
+	/*
 	Attendee.find().sort('-created').populate('user', 'displayName').exec(function(err, attendees) {
 		if (err) {
 			return res.status(400).send({
@@ -181,7 +120,7 @@ exports.list = function(req, res) {
 		} else {
 			res.jsonp(attendees);
 		}
-	});
+	});*/
 };
 
 /**

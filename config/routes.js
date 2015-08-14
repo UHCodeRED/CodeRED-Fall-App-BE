@@ -25,7 +25,7 @@ module.exports = function (app, passport) {
     next(); // pass control to the next handler
   })
   .get('/attendees',Attendee.list)
-  .post('/attendees',Attendee.doesExist,Attendee.create,Attendee.sendEmail,Attendee.update);
+  .post('/attendees', Attendee.doesExist,Attendee.create);
 
   app.route('/attendees/:attendeeId')
   .get(Attendee.read)
