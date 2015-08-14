@@ -1,15 +1,15 @@
 
 /**
- * Module dependencies.
- */
+* Module dependencies.
+*/
 
- var mongoose = require('mongoose');
-
+var mongoose = require('mongoose');
+var Attendee = require('../app/controllers/attendee.server.controller');
 /**
- * Expose
- */
+* Expose
+*/
 
- module.exports = function (app, passport) {
+module.exports = function (app, passport) {
 
   app.get('/', function (req, res) {
     res.render('home/index', {
@@ -17,27 +17,21 @@
     });
   });
 
-  /**
-   * Error handling
-   */
 
-   app.use(function (err, req, res, next) {
-    // treat as 404
-    if (err.message
-      && (~err.message.indexOf('not found')
-        || (~err.message.indexOf('Cast to ObjectId failed')))) {
-      return next();
-  }
-  console.error(err.stack);
-    // error page
-    res.status(500).render('500', { error: err.stack });
-  });
+  //Attendee Routes
+  app.all('/attendees', function (req, res, next) {
+    console.log('Accessing the secret section ...');
 
-  // assume 404 since no middleware responded
-  app.use(function (req, res, next) {
-    res.status(404).render('404', {
-      url: req.originalUrl,
-      error: 'Not found'
-    });
-  });
+    next(); // pass control to the next handler
+  })
+  .get('/attendees',Attendee.list)
+  .post('/attendees',Attendee.doesExist,Attendee.create,Attendee.sendEmail,Attendee.update);
+
+  app.route('/attendees/:attendeeId')
+  .get(Attendee.read)
+  .post(Attendee.update)
+  .delete(Attendee.delete);
+
+  // Finish by binding the Attendee middleware
+  app.param('attendeeId', Attendee.attendeeByID);
 };

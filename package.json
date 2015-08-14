@@ -25,9 +25,14 @@
     "morgan": "*",
     "passport": "^0.2.2",
     "passport-local": "^1.0.0",
+    "sendgrid": "^1.9.2",
     "serve-favicon": "*",
     "swig": "^1.4.2",
     "view-helpers": "^0.1.5",
     "winston": "^1.0.0"
+  },
+  "devDependencies": {
+    "should": "^6.0.3",
+    "supertest": "^1.0.1"
   }
 }

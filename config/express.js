@@ -35,13 +35,7 @@
   }));
 
   // Static files middleware
-app.use(express.static(path.join(__dirname, 'public')));
-
-  app.use(function(req, res, next) {
-    res.header("Access-Control-Allow-Origin", "*");
-    res.header("Access-Control-Allow-Headers", "Origin, X-Requested-With, Content-Type, Accept");
-    next();
-  });
+  app.use(express.static(path.join(__dirname, '../public')));
 
   // Use winston on production
   var log;
@@ -59,7 +53,7 @@ app.use(express.static(path.join(__dirname, 'public')));
 
   // Don't log during tests
   // Logging middleware
-//  if (env !== 'test') app.use(morgan("default", log));
+//  if (env !== 'test') app.use(morgan('default', log));
 
   // Swig templating engine settings
   if (env === 'development' || env === 'test') {
@@ -118,14 +112,4 @@ app.use(express.static(path.join(__dirname, 'public')));
   // should be declared after session and flash
   app.use(helpers(pkg.name));
 
-  // adds CSRF support
-  if (process.env.NODE_ENV !== 'test') {
-    app.use(csrf());
-
-    // This could be moved to view-helpers :-)
-app.use(function(req, res, next){
-  res.locals.csrf_token = req.csrfToken();
-  next();
-});
-}
 };

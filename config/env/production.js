@@ -4,7 +4,9 @@
  */
 
 module.exports = {
-  db: process.env.MongoDB || 'mongodb://fbuentello:meanRepo@ds027758.mongolab.com:27758/meanrepo',
+  environment: 'production',
+  db: process.env.MongoDB_PRO || 'DATABASE-URL',
+  sendGridAPI_Key: process.env.SendGrid_Key || 'SENDGRID-KEY',
   facebook: {
     clientID: 'APP_ID',
     clientSecret: 'SECRET',
