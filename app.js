@@ -2,14 +2,12 @@
 /**
 * Module dependencies
 */
+var fs = require('fs');
+var app = require('express')();
+var passport = require('passport');
 
 module.exports = function(config, db) {
-	var fs = require('fs');
-	var express = require('express');
-	var passport = require('passport');
 
-
-	var app = express();
 	app.use(function(req, res, next) {
 		res.header('Access-Control-Allow-Headers', 'Origin, X-Requested-With, X-HTTP-Method-Override, Content-Type, Accept');
 		next();
