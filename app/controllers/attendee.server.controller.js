@@ -36,11 +36,13 @@ exports.create = function(req, res, next) {
 			});
 		} else {
 			console.log('were responding with an attendee!');
-			res.jsonp(attendee);
+			req.attendee = attendee;
+			next();
+			// res.jsonp(attendee);
 		}
 	});
 };
-/*
+
 exports.sendEmail = function(req, res, next) {
 	emailServer.confirmationEmail(req.body, function(emailErr) {
 		if (emailErr) {
@@ -54,7 +56,7 @@ exports.sendEmail = function(req, res, next) {
 		}
 	});
 };
-*/
+
 
 /**
 * Show the current Attendee

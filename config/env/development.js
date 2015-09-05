@@ -6,7 +6,8 @@
 module.exports = {
   environment: 'development',
   db: process.env.MongoDB_DEV || 'DATABASE-URL',
-  sendGridAPI_Key: process.env.SendGrid_Key || 'SENDGRID-KEY',
+  sendgrid_username: process.env.sendgrid_username || 'sendgrid_username',
+  sendgrid_password: process.env.sendgrid_password || 'sendgrid_password',
   facebook: {
     clientID: 'APP_ID',
     clientSecret: 'SECRET',
