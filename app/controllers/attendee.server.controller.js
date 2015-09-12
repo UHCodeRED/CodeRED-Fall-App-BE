@@ -9,7 +9,6 @@ var mongoose = require('mongoose'),
 	emailServer = require('../../config/email'),
 	_ = require('lodash'),
 	config = require('../../config/config'),
-	sendgrid  = require('sendgrid')(config.sendGridAPI_Key),
 	swig  = require('swig');
 
 /**
@@ -46,7 +45,7 @@ exports.create = function(req, res, next) {
 exports.sendEmail = function(req, res, next) {
 	emailServer.confirmationEmail(req.body, function(emailErr) {
 		if (emailErr) {
-			return res.status(400).send({
+			return res.status(306).send({
 				message: emailErr
 			});
 
@@ -114,7 +113,10 @@ exports.delete = function(req, res, next) {
 exports.list = function(req, res, next) {
 	res.send("Ooops You're not supposed to be here");
 	/*
-	Attendee.find().sort('-created').populate('user', 'displayName').exec(function(err, attendees) {
+	Attendee.find()
+	.sort('-created')
+	.populate('user', 'displayName')
+	.exec(function(err, attendees) {
 		if (err) {
 			return res.status(400).send({
 				message: errorHandler.getErrorMessage(err)
@@ -129,7 +131,9 @@ exports.list = function(req, res, next) {
 * Attendee middleware
 */
 exports.attendeeByID = function(req, res, next, id) {
-	Attendee.findById(id).populate('user', 'displayName').exec(function(err, attendee) {
+	Attendee.findById(id)
+	.populate('user', 'displayName')
+	.exec(function(err, attendee) {
 		if (err) return next(err);
 		if (! attendee) return next(new Error('Failed to load Attendee ' + id));
 		req.attendee = attendee ;

@@ -75,9 +75,13 @@ var AttendeeSchema = new Schema({
 		type: Boolean,
 		default: false
 	},
+	accepted:{
+		type: Boolean,
+		default: false
+	},
 	created_at: Date,
 	updated_at: Date
-});
+}, { collection : 'persons' });
 
 // on every save, add the date
 AttendeeSchema.pre('save', function(next) {

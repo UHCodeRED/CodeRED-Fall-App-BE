@@ -29,7 +29,7 @@
     "serve-favicon": "*",
     "swig": "^1.4.2",
     "view-helpers": "^0.1.5",
-    "winston": "^1.0.0"
+    "winston": "^1.0.1"
   },
   "devDependencies": {
     "should": "^6.0.3",
