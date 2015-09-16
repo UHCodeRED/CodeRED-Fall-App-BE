@@ -10,6 +10,8 @@ module.exports = function(config) {
 	};
 	connect();
 
-	mongoose.connection.on('error', console.log);
+	mongoose.connection.on('error', function() {
+		throw err;
+	});
 	mongoose.connection.on('disconnected', connect);
 };

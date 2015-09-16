@@ -67,16 +67,42 @@ var AttendeeSchema = new Schema({
 		type: Boolean,
 		default: false
 	},
-	isComing: {
-		type: Boolean,
-		default: false
-	},
 	confirmationEmail:{
 		type: Boolean,
 		default: false
 	},
+	acceptedEmailSent:{ //used for mass acceptance email
+		type: Boolean,
+		default: false
+	},
 	created_at: Date,
-	updated_at: Date
+	updated_at: Date,
+	/* ==========================================================================
+	   has accepted
+	========================================================================== */
+	isComing: {
+		type: Boolean,
+		default: false
+	},
+	shirtSize : {
+		type: String,
+		enum: ['','S', 'M', 'L', 'XL', '2XL', '3XL'],
+		default: ''
+	},
+	dietaryRestrictions : {
+	    Halal: {type: Boolean, default: false },
+	    Kosher: {type: Boolean, default: false },
+	    Vegan: {type: Boolean, default: false },
+	    Vegetarian: {type: Boolean, default: false },
+	    NoDairy: {type: Boolean, default: false },
+	    NoPeanuts: {type: Boolean, default: false },
+	    Other: {type: Boolean, default: false }
+	},
+	comments : {
+		type: String,
+		default: '',
+		trim: true
+	}
 });
 
 // on every save, add the date
@@ -89,7 +115,7 @@ AttendeeSchema.pre('save', function(next) {
 
   // if created_at doesn't exist, add to that field
   if (!this.created_at)
-    this.created_at = currentDate;
+  	this.created_at = currentDate;
 
   next();
 });
