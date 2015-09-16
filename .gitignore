@@ -27,5 +27,9 @@ build/Release
 node_modules
 
 #Sublime Project files
-CodeRED_Project.sublime-workspace
+CodeRED_Project_BackEnd.sublime-workspace
 sendMassEmail.js
+accepted.html
+
+#Files that may be useful
+email.server.controller.js
