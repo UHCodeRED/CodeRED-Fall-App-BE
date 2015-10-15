@@ -32,6 +32,9 @@ module.exports = function (app, passport) {
 	.post(Attendee.update)
 	.delete(Attendee.delete);
 
+	app.route('/attendees/email/:attendeeEmail')
+	.get(Attendee.attendeeByEmail, Attendee.read);
+
 	// Finish by binding the Attendee middleware
 	app.param('attendeeId', Attendee.attendeeByID);
 };
