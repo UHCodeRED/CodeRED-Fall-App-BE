@@ -136,8 +136,26 @@ exports.attendeeByID = function(req, res, next, id) {
 	.exec(function(err, attendee) {
 		if (err) return next(err);
 		if (! attendee) return next(new Error('Failed to load Attendee ' + id));
-		req.attendee = attendee ;
+		req.attendee = attendee;
 		next();
+	});
+};
+
+/**
+ * Search for attendee by Email, used in Status Page
+ */
+exports.attendeeByEmail = function(req, res, next) {
+	console.log(req.params.attendeeEmail);
+	Attendee.findOne({email: req.params.attendeeEmail}, function(err, attendee){
+		console.log( "Attendees found:", attendee );
+		if (!attendee) {
+			return res.status(400).send({
+				message: errorHandler.getErrorMessage({code:11003})
+			});
+		} else {
+			req.attendee = attendee;
+			next();
+		}
 	});
 };
 

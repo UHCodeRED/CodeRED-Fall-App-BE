@@ -33,6 +33,9 @@
  			case 11002:
  			message = "Looks like you have already signed up. We will let you know soon if you were accepted.";
  			break;
+ 			case 11003:
+ 			message = "Looks like you haven't signed up yet.";
+ 			break;
  			default:
  			message = 'Something went wrong';
  		}
