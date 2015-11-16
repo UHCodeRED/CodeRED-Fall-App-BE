@@ -5,6 +5,7 @@
 
 var mongoose = require('mongoose');
 var Attendee = require('../app/controllers/attendee.server.controller');
+var Organizer = require('../app/controllers/organizer.server.controller');
 /**
 * Expose
 */
@@ -29,7 +30,7 @@ module.exports = function (app, passport) {
 
 	app.route('/attendees/:attendeeId')
 	.get(Attendee.read)
-	.post(Attendee.update)
+	.post(Organizer.verifyOrganizer, Attendee.update)
 	.delete(Attendee.delete);
 
 	app.route('/attendees/email/:attendeeEmail')

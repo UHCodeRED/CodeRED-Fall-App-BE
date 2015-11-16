@@ -102,6 +102,19 @@ var AttendeeSchema = new Schema({
 		type: String,
 		default: '',
 		trim: true
+	},
+	signedUpOnLocation: {
+		type: Boolean,
+		default: false
+	},
+	checkedIn: {
+		type: Boolean,
+		default: false
+	},
+	checkedInBy : {
+		type: String,
+		default: '',
+		trim: true
 	}
 });
 
