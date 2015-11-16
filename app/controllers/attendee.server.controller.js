@@ -145,8 +145,9 @@ exports.attendeeByID = function(req, res, next, id) {
  * Search for attendee by Email, used in Status Page
  */
 exports.attendeeByEmail = function(req, res, next) {
-	console.log(req.params.attendeeEmail);
-	Attendee.findOne({email: req.params.attendeeEmail}, function(err, attendee){
+	var _email = req.params.attendeeEmail;
+	console.log(_email);
+	Attendee.findOne({ "email" : { "$regex" : _email, "$options" : "-i" } }, function(err, attendee){
 		console.log( "Attendees found:", attendee );
 		if (!attendee) {
 			return res.status(400).send({

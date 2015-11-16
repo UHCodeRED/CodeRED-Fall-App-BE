@@ -36,6 +36,9 @@
  			case 11003:
  			message = "Looks like you haven't signed up yet.";
  			break;
+ 			case 11004:
+ 			message = 'Invalid Organizer Token'
+ 			break;
  			default:
  			message = 'Something went wrong';
  		}
